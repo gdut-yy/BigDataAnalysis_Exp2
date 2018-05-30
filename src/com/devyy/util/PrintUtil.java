@@ -10,7 +10,6 @@ import com.devyy.bean.PointBean;
 public class PrintUtil {
 	/**
 	 * 打印每个簇中的具体内容
-	 * 
 	 * @param dataBean——DataBean实体
 	 */
 	public void printClusterContents(DataBean dataBean) {

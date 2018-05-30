@@ -1,6 +1,5 @@
 package com.devyy.bean;
 
-
 import java.util.List;
 
 /** 

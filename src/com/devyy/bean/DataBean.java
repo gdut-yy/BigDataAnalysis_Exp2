@@ -3,7 +3,7 @@ package com.devyy.bean;
 import java.util.List;
 
 /** 
- * DataVO实体类，封装了簇的list以及数据点集的list 
+ * DataBean实体类，封装了簇的list以及数据点集的list 
  * 
  * @author ZYY
  * 

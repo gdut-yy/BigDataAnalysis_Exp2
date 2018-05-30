@@ -22,7 +22,6 @@ public class CorrectRate {
 	
 	/**
 	 * 获得两个Excel表之间的正确的映射
-	 * 
 	 * @return 返回键值对map
 	 */
 	public Map<Double[], String> getMap() {
@@ -44,16 +43,15 @@ public class CorrectRate {
 
 	/**
 	 * 获得正确率
-	 * 
-	 * @param dataVO
+	 * @param dataBean
 	 */
-	public void getCorrectRate(DataBean dataVO) {
+	public void getCorrectRate(DataBean dataBean) {
 		int maxLoca = 0;// 最多项在数组中出现的位置
 		int maxSize = 0;// 最多项出现的次数
 		int sum = 0;// 正确项的总和
 		Map<Double[], String> map = getMap();
 		// 每个簇所获得的簇名
-		String[] clusterNameReal = new String[dataVO.getClusterList().size()];
+		String[] clusterNameReal = new String[dataBean.getClusterList().size()];
 		Set<String> set = new HashSet<String>();
 		for (Iterator<Entry<Double[], String>> iter = map.entrySet().iterator(); iter.hasNext();) {
 			Map.Entry<Double[], String> entry = iter.next();
@@ -61,14 +59,14 @@ public class CorrectRate {
 			set.add(value);
 		}
 		// 封装簇名
-		String[] clusterNameArray = set.toArray(new String[dataVO.getClusterList().size()]);
+		String[] clusterNameArray = set.toArray(new String[dataBean.getClusterList().size()]);
 		int[] countArray = new int[clusterNameArray.length];
 		// 每个簇正确项个数的数组
 		int[] correctArray = new int[clusterNameArray.length];
 		for (int j = 0; j < countArray.length; j++) {
 			correctArray[j] = 0;
 		}
-		List<ClusterBean> clusterList = dataVO.getClusterList();
+		List<ClusterBean> clusterList = dataBean.getClusterList();
 		// 遍历每个簇，根据簇中元素所属于正确结果的最多值定一个初始的簇类
 		for (int i = 0; i < clusterList.size(); i++) {
 			// 计数器初始化
@@ -82,7 +80,7 @@ public class CorrectRate {
 			// 遍历簇内元素，得到该簇的真实名字
 			for (int j = 0; j < pointList.size(); j++) {
 				String valueStr = "";
-				Double[] testDoubleArray = dataVO.getClusterList().get(i).getPointList().get(j).getPoint();
+				Double[] testDoubleArray = dataBean.getClusterList().get(i).getPointList().get(j).getPoint();
 				Set<Double[]> valueSet = map.keySet();
 				int temp = 0;
 				for (Iterator<Double[]> iter = valueSet.iterator(); iter.hasNext();) {
@@ -95,8 +93,8 @@ public class CorrectRate {
 					}
 					if (countSame == valueArray.length) {
 						valueStr = map.get(valueArray);
-						dataVO.getPointList().get(temp).setPointName(valueStr);
-						dataVO.getClusterList().get(i).getPointList().get(j).setPointName(valueStr);
+						dataBean.getPointList().get(temp).setPointName(valueStr);
+						dataBean.getClusterList().get(i).getPointList().get(j).setPointName(valueStr);
 						break;
 					}
 					temp++;
@@ -116,14 +114,16 @@ public class CorrectRate {
 			clusterNameReal[i] = clusterNameArray[maxLoca];
 			correctArray[i] = maxSize;
 		}
-		System.out.println("###############################");
+		
+		System.out.println();
+		System.out.println("-----------result-----------");
 		for (int i = 0; i < correctArray.length; i++) {
 			sum += correctArray[i];
-			System.out.println("簇" + clusterNameReal[i] + "共有" + dataVO.getClusterList().get(i).getPointList().size()
+			System.out.println("簇" + clusterNameReal[i] + "共有" + dataBean.getClusterList().get(i).getPointList().size()
 					+ "项，其中正确项有" + correctArray[i] + "项；");
 		}
-		System.out.println("项的总数为：" + dataVO.getPointList().size() + "项");
-		double result = sum * 1.0 / dataVO.getPointList().size() * 100;
+		System.out.println("项的总数为：" + dataBean.getPointList().size() + "项");
+		double result = sum * 1.0 / dataBean.getPointList().size() * 100;
 		DecimalFormat df = new DecimalFormat("0.00");
 		System.out.println("正确率为：" + df.format(result) + "%");
 	}

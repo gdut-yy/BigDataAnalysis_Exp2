@@ -13,7 +13,6 @@ import jxl.read.biff.BiffException;
 public class ExcelUtil {
 	/**
 	 * 读取Excel文件
-	 * 
 	 * @param filePath——Excel文件的绝对路径
 	 * @return 返回Workbook
 	 */
@@ -36,7 +35,6 @@ public class ExcelUtil {
 
 	/**
 	 * 对Excel文件工作表的内容进行封装
-	 * 
 	 * @param workbook——Excel文件
 	 * @param sheetLoca——工作表位置
 	 * @param initRowLoca——初始行，即非表头行的记录开始的行数
@@ -57,7 +55,6 @@ public class ExcelUtil {
 
 	/**
 	 * 当表头存在多行时，获得某一特定所需表头行，将该表头行信息保存为一个Cell数组
-	 * 
 	 * @param workbook——Excel文件
 	 * @param sheetLoca——工作表位置
 	 * @param wantLoca——想获得的特定表头行位置

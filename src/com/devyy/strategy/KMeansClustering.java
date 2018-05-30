@@ -19,35 +19,33 @@ import jxl.Cell;
  * 
  */  
 public class KMeansClustering implements ClusteringIntf {
-	
+	private KMeans kMeans = new KMeans();
 	private ImportData importData =new ImportData();
 	private PrintUtil printUtil  =new PrintUtil();
-	private CorrectRate correctRate =new CorrectRate();
+	private CorrectRate correctRate =new CorrectRate();	
 	
-	/**
-	 * 调用K-Means算法
-	 */
+	// 调用K-Means算法	 
 	@Override
 	public void clusterAlgorithm() {
 		List<Cell[]> cellList = importData.importData();
 		int clusterNumber = importData.getclusterNumber();
-		DataBean dataVO = KMeans.initDataBean(cellList, clusterNumber);
-		List<PointBean> pointList = dataVO.getPointList();
+		DataBean dataBean = kMeans.initDataBean(cellList, clusterNumber);
+		List<PointBean> pointList = dataBean.getPointList();
 		int count = clusterNumber;
 		List<Double[]> centerValueList = new ArrayList<Double[]>();
 		for (int i = 0; i < clusterNumber; i++) {
-			Double[] center = dataVO.getClusterList().get(i).getClusterCenter();
+			Double[] center = dataBean.getClusterList().get(i).getClusterCenter();
 			centerValueList.add(center);
 		}
 		while (count != 0) {
 			count = 0;
 			for (int i = 0; i < pointList.size(); i++) {
-				dataVO = KMeans.distributeIntoCluster(dataVO, dataVO.getPointList().get(i));
+				dataBean = kMeans.distributeIntoCluster(dataBean, dataBean.getPointList().get(i));
 			}
-			dataVO = KMeans.countClusterCenter(dataVO);
+			dataBean = kMeans.countClusterCenter(dataBean);
 			List<Double[]> newCenterValueList = new ArrayList<Double[]>();
 			for (int i = 0; i < clusterNumber; i++) {
-				Double[] center = dataVO.getClusterList().get(i).getClusterCenter();
+				Double[] center = dataBean.getClusterList().get(i).getClusterCenter();
 				newCenterValueList.add(center);
 			}
 			for (int i = 0; i < clusterNumber; i++) {
@@ -66,7 +64,7 @@ public class KMeansClustering implements ClusteringIntf {
 			}
 			centerValueList.addAll(newCenterValueList);
 		}
-		printUtil.printClusterContents(dataVO);
-		correctRate.getCorrectRate(dataVO);
+		printUtil.printClusterContents(dataBean);
+		correctRate.getCorrectRate(dataBean);
 	}
 }

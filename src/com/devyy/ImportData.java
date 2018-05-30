@@ -1,7 +1,5 @@
 package com.devyy;
 
-
-
 import java.util.List;
 
 import com.devyy.util.ExcelUtil;
@@ -14,7 +12,6 @@ public class ImportData {
 	
 	/**
 	 * 导入测试数据
-	 * 
 	 * @return 返回封装了测试数据的list
 	 */
 	public List<Cell[]> importData() {
@@ -28,7 +25,6 @@ public class ImportData {
 
 	/**
 	 * 得到簇的数目
-	 * 
 	 * @return 返回簇的数目
 	 */
 	public int getclusterNumber() {
@@ -38,7 +34,6 @@ public class ImportData {
 
 	/**
 	 * 导入正确的分类结果数据
-	 * 
 	 * @return 返回封装该结果数据的list
 	 */
 	public List<Cell[]> importResultData() {

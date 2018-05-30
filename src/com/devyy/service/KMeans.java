@@ -22,12 +22,10 @@ public class KMeans {
 
 	/**
 	 * 计算新的簇中心
-	 * 
 	 * @param dataBean——DataBean实体类
-	 * 
 	 * @return 更新后的DataBean实体
 	 */
-	public static DataBean countClusterCenter(DataBean dataBean) {
+	public DataBean countClusterCenter(DataBean dataBean) {
 		List<ClusterBean> clusterList = dataBean.getClusterList();
 		List<ClusterBean> newClusterList = new ArrayList<ClusterBean>();
 		int i, j, p;
@@ -57,13 +55,11 @@ public class KMeans {
 
 	/**
 	 * 将对象指派到与其距离最近的簇
-	 * 
 	 * @param dataBean——DataBean实体
 	 * @param pointBean——数据点
-	 * 
 	 * @return 修改后的dataBean实体
 	 */
-	public static DataBean distributeIntoCluster(DataBean dataBean, PointBean pointBean) {
+	public DataBean distributeIntoCluster(DataBean dataBean, PointBean pointBean) {
 		double sum = 0.0, max = MAXLENGTH;
 		// loca存放在原先簇中的位置，locaRecord存放是在哪个簇
 		int locaRecord = 0, loca = 0;
@@ -161,40 +157,39 @@ public class KMeans {
 
 	/**
 	 * 初始化DataBean
-	 * 
 	 * @param cellList——封装了Excel表中一行行数据的list
 	 * @param k——k-means算法中的k
 	 * @return 修改后的DataBean实体
 	 */
-	public static DataBean initDataBean(List<Cell[]> cellList, int k) {
+	public DataBean initDataBean(List<Cell[]> cellList, int k) {
 		int i, j;
-		DataBean dataVO = new DataBean();
+		DataBean dataBean = new DataBean();
 		List<PointBean> pointList = new ArrayList<PointBean>();
 		List<ClusterBean> clusterList = new ArrayList<ClusterBean>();
 		List<ClusterBean> newClusterList = new ArrayList<ClusterBean>();
 		Cell[] cell = new Cell[cellList.get(0).length];
-		// 将所有元素加入到DataVO中管理以及加入PointVO中
+		// 将所有元素加入到DataBean中管理以及加入PointBean中
 		for (i = 0; i < cellList.size(); i++) {
 			cell = cellList.get(i);
 			Double[] point = new Double[cellList.get(0).length];
 			for (j = 0; j < cell.length; j++) {
 				point[j] = Double.valueOf(cell[j].getContents());
 			}
-			PointBean pointVO = new PointBean();
-			pointVO.setPoint(point);
-			pointVO.setPointName(null);
+			PointBean pointBean = new PointBean();
+			pointBean.setPoint(point);
+			pointBean.setPointName(null);
 			if (i < k) {
 				String clusterid = UUID.randomUUID().toString();
-				pointVO.setClusterid(clusterid);
+				pointBean.setClusterid(clusterid);
 				ClusterBean cluster = new ClusterBean();
 				cluster.setClusterid(clusterid);
 				clusterList.add(cluster);
 			} else {
-				pointVO.setClusterid(null);
+				pointBean.setClusterid(null);
 			}
-			pointList.add(pointVO);
+			pointList.add(pointBean);
 		}
-		dataVO.setPointList(pointList);
+		dataBean.setPointList(pointList);
 		// 将前k个点作为k个簇
 		for (i = 0; i < k; i++) {
 			cell = cellList.get(i);
@@ -211,7 +206,7 @@ public class KMeans {
 			cluster.setPointList(clusterPointList);
 			newClusterList.add(cluster);
 		}
-		dataVO.setClusterList(newClusterList);
-		return dataVO;
+		dataBean.setClusterList(newClusterList);
+		return dataBean;
 	}
 }
